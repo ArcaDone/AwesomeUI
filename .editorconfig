@@ -1,0 +1,34 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 200
+
+[*.{kt,kts}]
+ktlint_code_style = android_studio
+ktlint_standard_filename = disabled
+ktlint_function_naming = ignore-annotation:Composable
+ktlint_function_naming_ignore_when_annotated_with = Composable
+ktlint_standard_property-naming = disabled
+ktlint_function_signature_rule_force_multiline_when_parameter_count_greater_or_equal_than = 2
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+ij_kotlin_line_break_after_multiline_when_entry = false
+
+[**/generated/**]
+disabled_rules = class-naming
+
+[**/Res.kt]
+disabled_rules = class-naming
+
+[build/generated/**]
+disabled_rules = class-naming
+
+[{**/build/**,**/generated/**}]
+ktlint = disabled
+
