@@ -268,6 +268,60 @@ ProgressionChartGlow(
 
 ---
 
+### 🎯 RadarChart
+A radar/spider chart with multiple overlapping data series, glow effects, and interactive point selection.
+
+<img src="screenshots/radar_chart.png" width="600" alt="RadarChart Preview"/>
+
+```kotlin
+RadarChart(
+    axisLabels = listOf(
+        RadarAxisLabel("Chest"),
+        RadarAxisLabel("Back"),
+        RadarAxisLabel("Legs", isHighlighted = true),
+        RadarAxisLabel("Shoulders"),
+        RadarAxisLabel("Arms"),
+    ),
+    series = listOf(
+        RadarSeries(
+            name = "Current",
+            values = listOf(0.85f, 0.70f, 0.60f, 0.65f, 0.80f),
+            color = RadarColors.DataPrimary,
+        ),
+        RadarSeries(
+            name = "Previous",
+            values = listOf(0.65f, 0.55f, 0.75f, 0.45f, 0.60f),
+            color = RadarColors.DataWarning,
+            fillAlpha = 0.15f,
+        ),
+    ),
+    title = "Progress Comparison",
+    onPointClick = { point ->
+        // Handle point tap
+        println("${point?.seriesName}: ${point?.label} = ${point?.value}")
+    }
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `axisLabels` | List of `RadarAxisLabel(label, isHighlighted)` |
+| `series` | List of `RadarSeries(name, values, color, fillAlpha)` |
+| `title` | Optional chart title |
+| `style` | Customize colors, sizes, glow, grid levels |
+| `onPointClick` | Callback when a point is tapped |
+
+**Features:**
+- Multiple overlapping series for comparison
+- Interactive point selection with tooltip
+- Series highlighting on tap (others dim)
+- Glow effects on polygon and points
+- Gradient fill with customizable alpha
+- Backwards compatible single-series API
+
+---
+
 ## 📁 Project Structure
 
 ```
