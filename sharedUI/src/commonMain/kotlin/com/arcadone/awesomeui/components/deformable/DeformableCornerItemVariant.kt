@@ -1,6 +1,5 @@
 package com.arcadone.awesomeui.components.deformable
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,19 +22,19 @@ import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,6 +44,9 @@ import androidx.compose.ui.unit.sp
 import com.arcadone.awesomeui.components.chart.BarData
 import com.arcadone.awesomeui.components.chart.BasicBarChart
 import com.arcadone.awesomeui.components.chart.DesignColors
+import com.arcadone.awesomeui.components.chart.line.WavyChartProgress
+import com.arcadone.awesomeui.components.chart.line.WavyChartStyle
+import com.arcadone.awesomeui.components.chart.line.WavyLineChart
 import com.arcadone.awesomeui.components.timer.CircularTimerDefaults
 import com.arcadone.awesomeui.components.timer.TimerWatch
 import com.arcadone.shared.timer.TimerState
@@ -277,6 +279,9 @@ fun CaloriesCardSample(
                     stripeColor = VariantColors.ChartStripe,
                     chartData = chartData,
                     onBarClick = onBarClick,
+                    animationDurationMs = 1000,
+                    animationDelayPerBar = 100,
+                    showTooltip = false,
                 )
             }
         },
@@ -292,6 +297,8 @@ fun WatchCardSample(
     circleIcon: ImageVector = Icons.Default.HourglassTop,
     restColor: Color = VariantColors.AccentOrange,
     trackColor: Color = VariantColors.AccentOrange.copy(alpha = 0.2f),
+    timerState: TimerState = TimerState(timeRemaining = 45, totalTime = 60, isRest = true),
+    cardTitle: String = "Run:",
 ) {
     DeformableCornerItemVariant(
         modifier = modifier.height(200.dp),
@@ -317,7 +324,7 @@ fun WatchCardSample(
                     .fillMaxSize()
                     .padding(vertical = 20.dp, horizontal = 10.dp),
             ) {
-                Text("Run:", color = DesignColors.White, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text(cardTitle, color = DesignColors.White, fontSize = 16.sp, fontWeight = FontWeight.Medium)
 
                 Spacer(modifier = Modifier.weight(1f))
 
@@ -326,7 +333,7 @@ fun WatchCardSample(
                     contentAlignment = Alignment.Center,
                 ) {
                     TimerWatch(
-                        timerState = TimerState(timeRemaining = 45, totalTime = 60, isRest = true),
+                        timerState = timerState,
                         isOvertime = false,
                         showHeartbeat = false,
                         topIcon = null,
@@ -347,14 +354,22 @@ fun WatchCardSample(
 
 /**
  * Minutes card with wavy line chart - Variant dark theme
+ * The minutes value updates in real-time as the chart animates
  */
 @Composable
 fun MinutesCardVariant(
     modifier: Modifier = Modifier,
-    minutes: String = "127",
+    maxMinutes: Int = 127,
     cardTitle: String = "Minutes:",
     dataPoints: List<Float> = listOf(0.5f, 0.2f, 0.8f, 0.35f),
+    animationDurationMs: Int = 2400,
+    animateToProgress: Float = 1f,
+    showTooltipAtEnd: Boolean = false,
+    onProgressUpdate: ((WavyChartProgress) -> Unit)? = null,
 ) {
+    // State for animated minute display
+    var displayedMinutes by remember { mutableStateOf(0) }
+
     DeformableCornerItemVariant(
         modifier = modifier.height(200.dp),
         circleRadius = 26.dp,
@@ -393,7 +408,7 @@ fun MinutesCardVariant(
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     Text(
-                        text = minutes,
+                        text = "$displayedMinutes",
                         color = VariantColors.TextPrimary,
                         fontSize = 44.sp,
                         fontWeight = FontWeight.Bold,
@@ -409,129 +424,48 @@ fun MinutesCardVariant(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                // Wavy line chart with gradient fill
-                WavyLineChartVariant(
+                // Wavy line chart with progress callback
+                WavyLineChart(
+                    dataPoints = dataPoints,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(70.dp),
-                    lineColor = VariantColors.AccentOrange,
-                    fillColor = VariantColors.AccentOrange.copy(alpha = 0.3f),
-                    dataPoints = dataPoints,
+                    style = WavyChartStyle(
+                        lineColor = VariantColors.AccentOrange,
+                        fillColor = VariantColors.AccentOrange.copy(alpha = 0.3f),
+                        showGuideLine = false,
+                        showGlow = false,
+                    ),
+                    animate = true,
+                    animateToProgress = animateToProgress,
+                    animationDurationMs = animationDurationMs,
+                    showTooltipAtEnd = showTooltipAtEnd,
+                    interactive = true,
+                    showTooltip = true,
+                    onProgressUpdate = { progress ->
+                        // Update displayed minutes based on progress
+                        displayedMinutes = (maxMinutes * progress.progress).toInt()
+                        onProgressUpdate?.invoke(progress)
+                    },
                 )
             }
         },
     )
 }
 
-/**
- * Wavy line chart with gradient fill
- */
-
-@Composable
-fun WavyLineChartVariant(
-    dataPoints: List<Float> = listOf(0.5f, 0.2f, 0.8f, 0.35f),
-    modifier: Modifier = Modifier,
-    lineColor: Color = Color(0xFFFF9800),
-    fillColor: Color = Color(0xFFFF9800).copy(alpha = 0.2f),
-    strokeWidth: Dp = 2.5.dp,
-) {
-    if (dataPoints.isEmpty()) return
-
-    Canvas(modifier = modifier) {
-        val path = generateSmoothPath(dataPoints, size)
-
-        val fillPath = Path().apply {
-            addPath(path)
-            lineTo(size.width, size.height)
-            lineTo(0f, size.height)
-            close()
-        }
-
-        drawPath(
-            path = fillPath,
-            brush = Brush.verticalGradient(
-                colors = listOf(fillColor, Color.Transparent),
-                startY = 0f,
-                endY = size.height,
-            ),
-            style = Fill,
-        )
-
-        drawPath(
-            path = path,
-            color = lineColor,
-            style = Stroke(
-                width = strokeWidth.toPx(),
-                cap = StrokeCap.Round,
-                // join = StrokeJoin.Round // Opzionale per angoli più morbidi
-            ),
-        )
-    }
-}
-
-/**
- * Funzione magica che converte una lista di Float in una curva di Bézier smussata
- */
-fun generateSmoothPath(
-    data: List<Float>,
-    size: Size,
-): Path {
-    val path = Path()
-    if (data.isEmpty()) return path
-
-    // Mapping delle coordinate:
-    // X: distribuita equamente in base all'indice
-    // Y: invertita (0 è in alto) e scalata. Assumiamo input 0.0..1.0, altrimenti normalizza prima.
-    val stepX = size.width / (data.size - 1)
-
-    // Funzione helper per ottenere le coordinate XY di un punto dato l'indice
-    fun getPoint(index: Int): Offset {
-        val value = data[index].coerceIn(0f, 1f) // Sicurezza
-        val x = index * stepX
-        val y = size.height * (1 - value) // 1 - value perché Y=0 è in alto
-        return Offset(x, y)
-    }
-
-    // Punto iniziale
-    val startPoint = getPoint(0)
-    path.moveTo(startPoint.x, startPoint.y)
-
-    // Calcolo Curve di Bézier cubiche tra i punti
-    for (i in 0 until data.size - 1) {
-        val p0 = getPoint(i)
-        val p1 = getPoint(i + 1)
-
-        // Logica per i punti di controllo (Control Points)
-        // Usiamo una logica semplice: i punti di controllo sono a metà strada orizzontalmente
-        // tra i due punti, mantenendo la stessa Y del punto di origine/destinazione.
-        // Questo crea una curva a "S" morbida.
-
-        val controlPoint1 = Offset(
-            x = (p0.x + p1.x) / 2f,
-            y = p0.y,
-        )
-
-        val controlPoint2 = Offset(
-            x = (p0.x + p1.x) / 2f,
-            y = p1.y,
-        )
-
-        path.cubicTo(
-            controlPoint1.x,
-            controlPoint1.y,
-            controlPoint2.x,
-            controlPoint2.y,
-            p1.x,
-            p1.y,
-        )
-    }
-
-    return path
-}
-
 @Preview
 @Composable
 fun SampleCardsRowPreview() {
+    // Animated timer state
+    var timerSeconds by remember { mutableStateOf(60) }
+
+    LaunchedEffect(Unit) {
+        while (timerSeconds > 0) {
+            kotlinx.coroutines.delay(1000L)
+            timerSeconds--
+        }
+    }
+
     Column {
         val weekData = listOf(
             BarData(label = "Mon", progress = 0.7f),
@@ -566,10 +500,16 @@ fun SampleCardsRowPreview() {
             ) {
                 WatchCardSample(
                     modifier = Modifier.weight(1f),
+                    timerState = TimerState(
+                        timeRemaining = timerSeconds,
+                        totalTime = 60,
+                        isRest = true,
+                    ),
                 )
                 MinutesCardVariant(
                     modifier = Modifier.weight(1f),
-                    minutes = "127",
+                    maxMinutes = 127,
+                    animationDurationMs = 5000,
                 )
             }
         }
@@ -582,7 +522,10 @@ fun SampleCardsRowPreview() {
             MinutesCardVariant(
                 dataPoints = listOf(0.5f, 0.8f, 0.4f, 0.9f, 0.2f, 0.6f, 0.5f),
                 modifier = Modifier.fillMaxWidth(),
-                minutes = "91",
+                maxMinutes = 91,
+                animationDurationMs = 3000,
+                animateToProgress = 0.85f,
+                showTooltipAtEnd = true,
             )
         }
     }
