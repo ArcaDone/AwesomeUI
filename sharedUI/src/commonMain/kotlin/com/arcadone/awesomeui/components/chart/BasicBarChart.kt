@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,10 +23,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcadone.awesomeui.components.consistency.HeatmapGlowColors
+import com.arcadone.awesomeui.components.deformable.VariantColors
 import com.arcadone.awesomeui.components.striped.StripedBarItem
 
 @Composable
@@ -33,8 +39,8 @@ fun BasicBarChart(
     barWidth: Dp = 28.dp,
     barCornerRadius: Dp = 8.dp,
     textColor: Color = DesignColors.White,
-    activeBarColor: Color = DesignColors.MinutesOrange,
-    inactiveBarStripesBg: Color = Color(0xFF222222),
+    activeBarColor: Color = VariantColors.AccentOrange,
+    inactiveBarStripesBg: Color = Color.Gray,
     stripeColor: Color = Color.Black,
     chartData: List<BarData> = listOf(
         BarData(label = "Mon", progress = 0.7f),
@@ -102,6 +108,8 @@ fun BasicBarChart(
                     verticalAlignment = Alignment.Bottom,
                 ) {
                     Text(
+                        modifier = Modifier.fillMaxSize(),
+                        textAlign = TextAlign.Center,
                         text = data.label,
                         color = if (isSelected) textColor else Color.Gray,
                         fontSize = 11.sp,
@@ -128,14 +136,22 @@ object DesignColors {
 
 data class BarData(
     val label: String, // Es: "Mon", "Tue"
-    val progress: Float, // Da 0.0f a 1.0f
+    val progress: Float, // From 0.0f to 1.0f
 )
 
 @Preview
 @Composable
 fun BasicBarChartPreview() {
-    BasicBarChart(
-        modifier = Modifier.padding(16.dp),
-        selectedIndex = 2,
-    )
+    Card(
+        modifier = Modifier
+            .background(HeatmapGlowColors.CardBackground)
+            .padding(24.dp),
+        colors = CardDefaults.cardColors().copy(containerColor = HeatmapGlowColors.CardBackground),
+        shape = RoundedCornerShape(24.dp),
+    ) {
+        BasicBarChart(
+            modifier = Modifier.padding(48.dp),
+            selectedIndex = 2,
+        )
+    }
 }

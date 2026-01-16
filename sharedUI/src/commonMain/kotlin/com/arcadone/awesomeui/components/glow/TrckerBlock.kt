@@ -128,44 +128,90 @@ private fun TrackerBlockPreview() {
             delay(500)
         }
     }
-
-    Row(
+    Box(
         modifier = Modifier
-            .wrapContentWidth()
-            .padding(8.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color.Green.copy(alpha = 0.2f))
-            .padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
+            .background(Color(0xFF0D0F14))
+            .padding(16.dp),
     ) {
-        TrackerBlock(
-            color = Color.Green,
-            progress = 1f,
-            isWaveActive = true,
-            waveDelay = 0,
-            style = GlowingTrackerDefaults.style(),
-        )
-        TrackerBlock(
-            color = Color.Green,
-            progress = 0.8f,
-            isWaveActive = true,
-            waveDelay = 0,
-            style = GlowingTrackerDefaults.style(),
-        )
-        TrackerBlock(
-            color = Color.Green,
-            progress = 0.6f,
-            isWaveActive = true,
-            waveDelay = 0,
-            style = GlowingTrackerDefaults.style(),
-        )
-        TrackerBlock(
-            color = Color.Green,
-            progress = animatedValue,
-            isWaveActive = true,
-            waveDelay = 0,
-            style = GlowingTrackerDefaults.style(),
-        )
+        Row {
+            Row(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.Green.copy(alpha = 0.2f))
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                TrackerBlock(
+                    color = Color.Green,
+                    progress = 1f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Green,
+                    progress = 0.8f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Green,
+                    progress = 0.6f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Green,
+                    progress = animatedValue,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+            }
+            Row(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Color.Red.copy(alpha = 0.2f))
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+            ) {
+                TrackerBlock(
+                    color = Color.Red,
+                    progress = 0.8f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Red,
+                    progress = 1f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Red,
+                    progress = 1f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+                TrackerBlock(
+                    color = Color.Red,
+                    progress = 0.3f,
+                    isWaveActive = true,
+                    waveDelay = 0,
+                    style = GlowingTrackerDefaults.style(),
+                )
+            }
+        }
     }
 }

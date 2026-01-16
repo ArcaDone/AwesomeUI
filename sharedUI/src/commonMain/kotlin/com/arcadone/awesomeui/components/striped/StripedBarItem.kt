@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun StripedBarItem(
     modifier: Modifier = Modifier.size(38.dp),
-    backgroundColor: Color = Color(0xFF222222),
+    backgroundColor: Color = Color.LightGray,
     stripeColor: Color = Color.Black,
-    gap: Dp = 6.dp,
+    gap: Dp = 2.dp,
     rotation: Float = 45f,
 ) {
     Canvas(modifier = modifier.background(backgroundColor)) {

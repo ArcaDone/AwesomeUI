@@ -264,7 +264,7 @@ fun TimerWatchLogicGallery() {
                 .fillMaxSize()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
                 "Timer Logic States",
@@ -317,7 +317,7 @@ private fun StateShowcase(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.Black, RoundedCornerShape(12.dp))
-            .padding(16.dp),
+            .padding(8.dp),
     ) {
         Text(
             text = title,

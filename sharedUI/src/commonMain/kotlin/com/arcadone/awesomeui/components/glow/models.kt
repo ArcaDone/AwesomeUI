@@ -13,7 +13,6 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 // --- ENUMS & DATA CLASSES ---
 
 enum class GlowMode {
@@ -21,11 +20,7 @@ enum class GlowMode {
     INCREMENTAL,
 }
 
-data class GlowingTrackerState(
-    val currentValue: Float,
-    val maxValuePerContainer: Float,
-    val containerCount: Int,
-) {
+data class GlowingTrackerState(val currentValue: Float, val maxValuePerContainer: Float, val containerCount: Int) {
     val totalMax: Float get() = maxValuePerContainer * containerCount
     val isAllComplete: Boolean get() = currentValue >= totalMax
 }
