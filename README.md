@@ -366,6 +366,87 @@ WeightScalePicker(
 
 ---
 
+### 🔀 DraggableList & DraggableGrid
+
+Reorderable lists and grids with drag and drop functionality. Supports vertical, horizontal, and 2D grid layouts.
+
+<img src="screenshots/draggable_list.gif" width="400" alt="DraggableGrid Preview"/>
+
+**DraggableList** - 1D reordering (vertical or horizontal):
+```kotlin
+var items by remember { mutableStateOf(listOf("A", "B", "C", "D")) }
+
+DraggableList(
+    items = items,
+    onReorder = { newList -> items = newList },
+    key = { it },  // IMPORTANT: stable key for correct reordering
+    orientation = DragOrientation.VERTICAL,
+    style = DraggableListStyle(
+        itemSpacing = 12.dp,
+        draggedItemScale = 1.02f,
+        draggedItemElevation = 8.dp,
+    ),
+) { item, index, isDragging, dragModifier ->
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .then(dragModifier),  // Apply dragModifier to enable dragging
+    ) {
+        Text(item)
+    }
+}
+```
+
+<img src="screenshots/draggable_grid.gif" width="400" alt="DraggableGrid Preview"/>
+
+**DraggableGrid** - 2D reordering in a grid:
+```kotlin
+var items by remember { mutableStateOf((1..9).toList()) }
+
+DraggableGrid(
+    items = items,
+    onReorder = { newList -> items = newList },
+    columns = 3,
+    key = { it },  // IMPORTANT: stable key for correct reordering
+    style = DraggableGridStyle(
+        itemSpacing = 12.dp,
+        draggedItemScale = 1.08f,
+        draggedItemElevation = 16.dp,
+    ),
+) { item, index, isDragging, dragModifier ->
+    Card(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .then(dragModifier),
+    ) {
+        Text("$item", modifier = Modifier.align(Alignment.Center))
+    }
+}
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `items` | List of items to display |
+| `onReorder` | Callback with new list order after drag ends |
+| `key` | **CRITICAL**: Function to extract stable unique key from item |
+| `orientation` | `VERTICAL` or `HORIZONTAL` (DraggableList only) |
+| `columns` | Number of grid columns (DraggableGrid only) |
+| `style` | Customize spacing, scale, elevation, colors |
+| `itemContent` | Composable for each item (receives `dragModifier`) |
+
+**Features:**
+- Long-press to initiate drag
+- Animated item shifting during drag
+- Floating copy effect with scale and elevation
+- Placeholder slots showing drop positions
+- Works with LazyColumn/LazyRow/LazyVerticalGrid
+- Stable key support for correct recomposition
+
+> ⚠️ **Important**: Always provide a `key` function that returns a stable, unique identifier for each item. Using `hashCode()` or mutable properties will cause incorrect behavior after reordering.
+
+---
+
 ## 📁 Project Structure
 
 ```
