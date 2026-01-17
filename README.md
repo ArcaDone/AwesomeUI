@@ -322,6 +322,50 @@ RadarChart(
 
 ---
 
+### ⚖️ WeightScalePicker
+
+A horizontal scrollable weight picker with snap-to-tick behavior and haptic feedback.
+
+<img src="screenshots/weight_scale.png" width="500" alt="WeightScalePicker Preview"/>
+
+```kotlin
+var weight by remember { mutableFloatStateOf(70f) }
+
+WeightScalePicker(
+    value = weight,
+    onValueChange = { weight = it },
+    minValue = 40f,
+    maxValue = 150f,
+    step = 0.1f,
+    onHapticFeedback = { /* vibrate */ },
+    style = WeightScaleStyle(
+        accentColor = WeightScaleColors.AccentPurple
+    )
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `value` | Current weight value (e.g., 70.5f) |
+| `onValueChange` | Callback when value changes |
+| `minValue` | Minimum selectable weight |
+| `maxValue` | Maximum selectable weight |
+| `step` | Increment between ticks (0.1 = 100g) |
+| `onHapticFeedback` | Callback for haptic feedback on tick crossing |
+| `style` | Customize colors, tick sizes, indicator |
+
+**Features:**
+- Smooth horizontal drag scrolling
+- Snap to nearest tick on release
+- Major ticks every 1 kg with labels
+- Minor ticks every 0.1 kg
+- Center indicator line with dot
+- Haptic feedback callback
+- Light and dark theme support
+
+---
+
 ## 📁 Project Structure
 
 ```
