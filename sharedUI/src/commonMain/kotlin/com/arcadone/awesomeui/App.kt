@@ -262,7 +262,6 @@ fun ShowcaseScreen2_ChartsAndHeatmap() {
     }
 }
 
-
 // ============================================================================
 // SHOWCASE SCREEN 3: Heatmap and Weight
 // ============================================================================
@@ -275,7 +274,7 @@ fun ShowcaseScreen3_HeatmapAndWeight() {
             .fillMaxSize()
             .background(Color(0xFF0D0F14))
             .verticalScroll(rememberScrollState())
-            .padding(vertical =16.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp),
     ) {
         // Header
