@@ -46,6 +46,7 @@ import com.arcadone.awesomeui.components.deformable.WatchCardSample
 import com.arcadone.awesomeui.components.donuts.DonutSegment
 import com.arcadone.awesomeui.components.donuts.DonutVariantColors
 import com.arcadone.awesomeui.components.donuts.MuscleGroupDonutVariant
+import com.arcadone.awesomeui.components.effects.ParticleShowcasePreview
 import com.arcadone.awesomeui.components.picker.WeightScalePicker
 import com.arcadone.awesomeui.components.picker.WeightScaleStyle
 import com.arcadone.awesomeui.theme.AppTheme
@@ -62,7 +63,7 @@ fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) = AppTheme(o
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(0.dp),
         content = {
-            ShowcaseScreen3_HeatmapAndWeight()
+            ParticleShowcasePreview()
         },
     )
 }
