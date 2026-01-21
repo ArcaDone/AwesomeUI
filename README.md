@@ -449,6 +449,92 @@ DraggableGrid(
 
 ---
 
+### ✨ Premium Particle Effects
+
+A collection of particle effects for creating stunning premium-style animations. Inspired by Telegram Premium gift screens.
+
+<table>
+<tr>
+<td><img src="screenshots/gold_classic.gif" width="200" alt="Gold Classic"/><br/><b>Gold Classic</b></td>
+<td><img src="screenshots/fire_durst.gif" width="200" alt="Fire Burst"/><br/><b>Fire Burst</b></td>
+<td><img src="screenshots/pink_dream.gif" width="200" alt="Pink Dream"/><br/><b>Pink Dream</b></td>
+<td><img src="screenshots/rainbow_explosion.gif" width="200" alt="Rainbow Explosion"/><br/><b>Rainbow Explosion</b></td>
+</tr>
+</table>
+
+**PremiumStarCard** - Complete card with particle effects:
+```kotlin
+PremiumStarCard(
+    modifier = Modifier.fillMaxWidth().height(300.dp),
+    title = "Gift Premium",
+    subtitle = "Give someone access to exclusive features",
+    style = PremiumStarCardStyle(
+        accentColor = ParticleColors.Gold,
+    ),
+    burstStyle = ParticleBurstStyle(
+        particleCount = 100,
+        shapes = listOf(ParticleShape.Star4Point, ParticleShape.Star6Point),
+        colors = ParticleColors.GoldPalette,
+        emissionPattern = EmissionPattern.DIAGONAL_X,
+        cycleDurationMs = 3000,
+        spreadAngle = 0.6f,
+        flutterEnabled = true,  // Particles oscillate sideways
+        maxFlutterAmount = 25f,
+    ),
+    flickerStyle = FlickerStarsStyle(
+        particleCount = 30,
+        colors = ParticleColors.GoldPalette,
+    ),
+    effectCenterOffset = Offset(0f, -60f),  // Move effects behind profile
+    profileContent = {
+        Image(
+            painter = painterResource(Res.drawable.profile),
+            contentDescription = "Profile",
+            modifier = Modifier.fillMaxSize().clip(CircleShape),
+            contentScale = ContentScale.Crop,
+        )
+    },
+)
+```
+
+**ParticleBurst** - Standalone particle burst effect:
+```kotlin
+ParticleBurst(
+    style = ParticleBurstStyle(
+        particleCount = 80,
+        shapes = listOf(ParticleShape.Star4Point, ParticleShape.Circle),
+        colors = ParticleColors.FirePalette,
+        emissionPattern = EmissionPattern.RADIAL,  // 360° radial pattern
+        cycleDurationMs = 2000,  // Faster = more intense
+        flutterEnabled = true,
+    ),
+    centerOffset = Offset(0f, -50f),  // Custom center point
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `particleCount` | Number of particles (30-200 recommended) |
+| `shapes` | List of `ParticleShape`: `Star4Point`, `Star6Point`, `Circle`, `Icon(ImageVector)`, `Drawable(DrawableResource)` |
+| `colors` | Color palette: `GoldPalette`, `FirePalette`, `PinkPalette`, `RainbowPalette` |
+| `emissionPattern` | `DIAGONAL_X`, `RADIAL`, `UPWARD`, `UPWARD_SPREAD`, `DOWNWARD`, `HORIZONTAL` |
+| `cycleDurationMs` | Animation duration (lower = faster) |
+| `spreadAngle` | Cone width in radians (0.4-1.2) |
+| `flutterEnabled` | Enables sideways oscillation |
+| `maxFlutterAmount` | Oscillation amplitude in pixels |
+| `effectCenterOffset` | `Offset(x, y)` to move effect origin |
+
+**Available Effects:**
+- **ParticleBurst** → Stars/shapes shooting from center
+- **EmberEffect** → Fire-like sparks rising upward
+- **FlickerStarsEffect** → Stars with random intermittent visibility
+- **StarfieldBackground** → Static twinkling star background
+- **PremiumParticleEffect** → Combined effect (all above)
+- **PremiumStarCard** → Complete card with profile, title, and effects
+
+---
+
 ## 📁 Project Structure
 
 ```
