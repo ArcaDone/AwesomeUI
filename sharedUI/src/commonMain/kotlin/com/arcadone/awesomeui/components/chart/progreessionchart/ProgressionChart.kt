@@ -1,4 +1,4 @@
-package com.arcadone.awesomeui.components.chart.line
+package com.arcadone.awesomeui.components.chart.progreessionchart
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.TrendingUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -26,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcadone.awesomeui.components.chart.line.ChartDataPoint
+import com.arcadone.awesomeui.components.chart.line.LineChart
 
 private val borderSurfaceColor = Color(0xFF374151) // Standard borders
 private val surfaceColor = Color(0xFF1C2333)
@@ -81,7 +84,7 @@ fun ProgressionChart(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
-                            Icons.Default.TrendingUp,
+                            Icons.AutoMirrored.Filled.TrendingUp,
                             contentDescription = null,
                             tint = greenColor,
                             modifier = Modifier.size(14.dp),

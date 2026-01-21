@@ -45,6 +45,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcadone.awesomeui.components.chart.progreessionchart.getAnimatedPath
+import com.arcadone.awesomeui.components.chart.progreessionchart.getPointAtProgress
 
 /**
  * Color palette for wavy charts
@@ -179,7 +181,7 @@ fun WavyLineChart(
     // Notify progress updates
     LaunchedEffect(currentProgress, dataPoints) {
         if (dataPoints.isNotEmpty()) {
-            val currentValue = interpolateValueAtProgress(dataPoints, currentProgress)
+            val currentValue = wavyInterpolateValueAtProgress(dataPoints, currentProgress)
             onProgressUpdate?.invoke(WavyChartProgress(progress = currentProgress, value = currentValue))
         }
     }
@@ -195,7 +197,7 @@ fun WavyLineChart(
         val size = Size(width, height)
         val fullPath = generateSmoothPath(dataPoints, size)
         val pointOnPath = getPointAtProgress(fullPath, tapProgress)
-        val interpolatedValue = interpolateValueAtProgress(dataPoints, tapProgress)
+        val interpolatedValue = wavyInterpolateValueAtProgress(dataPoints, tapProgress)
 
         userProgress = tapProgress
         selectedPoint = WavySelectedPoint(
@@ -399,7 +401,7 @@ fun WavyLineChart(
         if (shouldShowTooltip) {
             // Calculate position and value for tooltip
             val tooltipProgress = selectedPoint?.progress ?: targetProgress
-            val tooltipValue = selectedPoint?.value ?: interpolateValueAtProgress(dataPoints, targetProgress)
+            val tooltipValue = selectedPoint?.value ?: wavyInterpolateValueAtProgress(dataPoints, targetProgress)
 
             // We need to get the position on the chart
             // Use BoxWithConstraints approach or calculate from known size
@@ -417,7 +419,7 @@ fun WavyLineChart(
                 )
 
                 // Calculate end position if needed
-                val endPointValue = interpolateValueAtProgress(dataPoints, targetProgress)
+                val endPointValue = wavyInterpolateValueAtProgress(dataPoints, targetProgress)
                 val displayValue = selectedPoint?.value ?: endPointValue
 
                 // For simplicity, position tooltip relative to the chart end
@@ -486,7 +488,7 @@ private fun EndPositionTooltip(
     valueFormatter: (Float) -> String,
     lineColor: Color,
 ) {
-    val endValue = interpolateValueAtProgress(dataPoints, targetProgress)
+    val endValue = wavyInterpolateValueAtProgress(dataPoints, targetProgress)
 
     Box(
         modifier = Modifier
@@ -610,35 +612,7 @@ private fun getAccordionAnimatedPath(
     return animatedPath
 }
 
-private fun getAnimatedPath(
-    fullPath: Path,
-    progress: Float,
-): Path {
-    if (progress >= 1f) return fullPath
-    if (progress <= 0f) return Path()
-
-    val pathMeasure = PathMeasure()
-    pathMeasure.setPath(fullPath, false)
-    val pathLength = pathMeasure.length
-    val targetLength = pathLength * progress
-
-    val animatedPath = Path()
-    pathMeasure.getSegment(0f, targetLength, animatedPath, true)
-    return animatedPath
-}
-
-private fun getPointAtProgress(
-    fullPath: Path,
-    progress: Float,
-): Offset {
-    val pathMeasure = PathMeasure()
-    pathMeasure.setPath(fullPath, false)
-    val pathLength = pathMeasure.length
-    val targetLength = pathLength * progress.coerceIn(0f, 1f)
-    return pathMeasure.getPosition(targetLength)
-}
-
-private fun interpolateValueAtProgress(
+private fun wavyInterpolateValueAtProgress(
     data: List<Float>,
     progress: Float,
 ): Float {

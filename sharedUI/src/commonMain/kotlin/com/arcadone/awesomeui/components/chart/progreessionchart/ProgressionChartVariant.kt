@@ -1,4 +1,4 @@
-package com.arcadone.awesomeui.components.chart.line
+package com.arcadone.awesomeui.components.chart.progreessionchart
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
@@ -35,16 +35,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.graphics.PathMeasure
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
@@ -54,6 +50,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.arcadone.awesomeui.components.chart.line.ChartDataPoint
 
 /**
  * Color palette for progression charts
@@ -614,7 +611,7 @@ private fun LineChartItem(
                         drawRoundRect(
                             color = style.lineColor,
                             style = Stroke(width = 2f),
-                            cornerRadius = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx()),
+                            cornerRadius = CornerRadius(8.dp.toPx()),
                         )
                     }
                     .padding(horizontal = 12.dp, vertical = 8.dp),
@@ -635,119 +632,6 @@ private fun LineChartItem(
             }
         }
     }
-}
-
-private fun DrawScope.drawAnimatedGradient(
-    fullPath: Path,
-    progress: Float,
-    height: Float,
-    firstX: Float,
-    lineColor: Color,
-) {
-    val pathMeasure = PathMeasure()
-    pathMeasure.setPath(fullPath, false)
-    val pathLength = pathMeasure.length
-    val targetLength = pathLength * progress
-
-    val gradientPath = Path().apply {
-        val steps = 50
-        var started = false
-        for (i in 0..steps) {
-            val distance = (targetLength * i / steps).coerceAtMost(targetLength)
-            val pos = pathMeasure.getPosition(distance)
-            if (!started) {
-                moveTo(pos.x, pos.y)
-                started = true
-            } else {
-                lineTo(pos.x, pos.y)
-            }
-        }
-
-        val currentPoint = pathMeasure.getPosition(targetLength)
-        lineTo(currentPoint.x, height)
-        lineTo(firstX, height)
-        close()
-    }
-
-    drawPath(
-        path = gradientPath,
-        brush = Brush.verticalGradient(
-            colors = listOf(
-                lineColor.copy(alpha = 0.25f),
-                lineColor.copy(alpha = 0.05f),
-                Color.Transparent,
-            ),
-        ),
-        style = Fill,
-    )
-}
-
-private fun buildSmoothPath(dataPoints: List<Offset>): Path {
-    return Path().apply {
-        if (dataPoints.isEmpty()) return@apply
-        moveTo(dataPoints[0].x, dataPoints[0].y)
-        for (i in 1 until dataPoints.size) {
-            val prev = dataPoints[i - 1]
-            val curr = dataPoints[i]
-            val controlX = (prev.x + curr.x) / 2
-            cubicTo(controlX, prev.y, controlX, curr.y, curr.x, curr.y)
-        }
-    }
-}
-
-private fun getAnimatedPath(
-    fullPath: Path,
-    progress: Float,
-): Path {
-    if (progress >= 1f) return fullPath
-    if (progress <= 0f) return Path()
-
-    val pathMeasure = PathMeasure()
-    pathMeasure.setPath(fullPath, false)
-    val pathLength = pathMeasure.length
-    val targetLength = pathLength * progress
-
-    val animatedPath = Path()
-    pathMeasure.getSegment(0f, targetLength, animatedPath, true)
-    return animatedPath
-}
-
-private fun getPointAtProgress(
-    fullPath: Path,
-    progress: Float,
-): Offset {
-    val pathMeasure = PathMeasure()
-    pathMeasure.setPath(fullPath, false)
-    val pathLength = pathMeasure.length
-    val targetLength = pathLength * progress.coerceIn(0f, 1f)
-    return pathMeasure.getPosition(targetLength)
-}
-
-private fun findClosestDataPointIndex(
-    progress: Float,
-    dataSize: Int,
-): Int {
-    if (dataSize <= 1) return 0
-    val index = (progress * (dataSize - 1)).toInt()
-    return index.coerceIn(0, dataSize - 1)
-}
-
-private fun interpolateValueAtProgress(
-    data: List<ChartDataPoint>,
-    progress: Float,
-): Float {
-    if (data.isEmpty()) return 0f
-    if (data.size == 1) return data[0].value
-
-    val exactIndex = progress * (data.size - 1)
-    val lowerIndex = exactIndex.toInt().coerceIn(0, data.size - 2)
-    val upperIndex = (lowerIndex + 1).coerceIn(0, data.size - 1)
-
-    val lowerValue = data[lowerIndex].value
-    val upperValue = data[upperIndex].value
-
-    val fraction = exactIndex - lowerIndex
-    return lowerValue + (upperValue - lowerValue) * fraction
 }
 
 // ============================================================================

@@ -34,8 +34,9 @@ import com.arcadone.awesomeui.components.chart.BarData
 import com.arcadone.awesomeui.components.chart.RadarChart
 import com.arcadone.awesomeui.components.chart.RadarDataPoint
 import com.arcadone.awesomeui.components.chart.line.ChartDataPoint
-import com.arcadone.awesomeui.components.chart.line.ProgressionChartGlow
-import com.arcadone.awesomeui.components.chart.line.TrendDirection
+import com.arcadone.awesomeui.components.chart.progreessionchart.FullAnalyticsPreview
+import com.arcadone.awesomeui.components.chart.progreessionchart.ProgressionChartGlow
+import com.arcadone.awesomeui.components.chart.progreessionchart.TrendDirection
 import com.arcadone.awesomeui.components.consistency.ConsistencyHeatmapCardGlow
 import com.arcadone.awesomeui.components.consistency.HeatmapData
 import com.arcadone.awesomeui.components.consistency.HeatmapGlowColors
@@ -46,7 +47,6 @@ import com.arcadone.awesomeui.components.deformable.WatchCardSample
 import com.arcadone.awesomeui.components.donuts.DonutSegment
 import com.arcadone.awesomeui.components.donuts.DonutVariantColors
 import com.arcadone.awesomeui.components.donuts.MuscleGroupDonutVariant
-import com.arcadone.awesomeui.components.effects.ParticleShowcasePreview
 import com.arcadone.awesomeui.components.picker.WeightScalePicker
 import com.arcadone.awesomeui.components.picker.WeightScaleStyle
 import com.arcadone.awesomeui.theme.AppTheme
@@ -63,7 +63,7 @@ fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) = AppTheme(o
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(0.dp),
         content = {
-            ParticleShowcasePreview()
+            FullAnalyticsPreview()
         },
     )
 }

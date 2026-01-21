@@ -8,6 +8,66 @@ A collection of **"copy, paste, use"** snippets and useful elements for those wh
 
 ## 🧩 Components
 
+
+### 📈 ProgressionChart
+
+A line chart with smooth curves, gradient fill, glow effects, and trend indicator badge.
+
+<table>
+<tr>
+<td><img src="screenshots/progression_chart.png" width="200" alt="Gold Classic"/><br/><b>ProgressionChart</b></td>
+<td><img src="screenshots/double_chart_view.gif" width="200" alt="Fire Burst"/><br/><b>DoubleTouch</b></td>
+</tr>
+</table>
+
+```kotlin
+ProgressionChartGlow(
+    data = listOf(
+        ChartDataPoint(100f, "Nov 1"),
+        ChartDataPoint(90f, "Nov 15"),
+        ChartDataPoint(100f, "Dec 1"),
+        ChartDataPoint(103f, "Dec 15"),
+        ChartDataPoint(105f, "Today"),
+    ),
+    title = "Bench Press 1RM",
+    value = "105 kg",
+    trend = "+5%",
+    trendDirection = TrendDirection.UP,
+    style = ProgressionChartStyle(
+        lineColor = ProgressionGlowColors.LineGreen
+    )
+)
+```
+```kotlin
+// See FullAnalyticsPreview()
+ProgressionChartGlow(
+    data = analyticsData,
+    style = ProgressionChartStyle(lineColor = ProgressionGlowColors.LinePurple, chartHeight = 220.dp, glowAlpha = 0.5f, lineWidth = 4.dp),
+    initialSelectionRange = 0.45f..0.82f,
+    animate = false,
+    onRangeSelection = { currentRange = it },
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `data` | List of `ChartDataPoint(value, label)` |
+| `title` | Chart title (e.g., exercise name) |
+| `value` | Main value display |
+| `trend` | Trend percentage (e.g., "+5%") |
+| `trendDirection` | `TrendDirection.UP`, `DOWN`, or `NEUTRAL` |
+| `style` | Customize line color, glow, grid, gradients |
+
+**Features:**
+- Smooth cubic Bézier curves
+- Gradient fill under the line
+- Glow effect on the line
+- Last point highlighted with glow ring
+- Trend badge with icon
+
+---
+
 ### 🔥 DeformableCornerItem
 
 A customizable card with deformable corners and a circular cutout for icons.
@@ -223,50 +283,6 @@ ConsistencyHeatmapCardGlow(
 - **0.3-0.5** → Light workout
 - **0.6-0.8** → Moderate workout
 - **1.0** → Intense workout (with glow effect)
-
----
-
-### 📈 ProgressionChart
-
-A line chart with smooth curves, gradient fill, glow effects, and trend indicator badge.
-
-<img src="screenshots/progression_chart.png" width="500" alt="ProgressionChart Preview"/>
-
-```kotlin
-ProgressionChartGlow(
-    data = listOf(
-        ChartDataPoint(100f, "Nov 1"),
-        ChartDataPoint(90f, "Nov 15"),
-        ChartDataPoint(100f, "Dec 1"),
-        ChartDataPoint(103f, "Dec 15"),
-        ChartDataPoint(105f, "Today"),
-    ),
-    title = "Bench Press 1RM",
-    value = "105 kg",
-    trend = "+5%",
-    trendDirection = TrendDirection.UP,
-    style = ProgressionChartStyle(
-        lineColor = ProgressionGlowColors.LineGreen
-    )
-)
-```
-
-**Key Parameters:**
-| Parameter | Description |
-|-----------|-------------|
-| `data` | List of `ChartDataPoint(value, label)` |
-| `title` | Chart title (e.g., exercise name) |
-| `value` | Main value display |
-| `trend` | Trend percentage (e.g., "+5%") |
-| `trendDirection` | `TrendDirection.UP`, `DOWN`, or `NEUTRAL` |
-| `style` | Customize line color, glow, grid, gradients |
-
-**Features:**
-- Smooth cubic Bézier curves
-- Gradient fill under the line
-- Glow effect on the line
-- Last point highlighted with glow ring
-- Trend badge with icon
 
 ---
 
