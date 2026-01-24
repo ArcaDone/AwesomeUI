@@ -577,7 +577,7 @@ WIP
 ---
 # ⭐ Star History
 
-<a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
+<a href="https://star-history.com/#ArcaDone/AwesomeUI&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ArcaDone/AwesomeUI&type=Date&theme=dark" />
    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ArcaDone/AwesomeUI&type=Date" />
