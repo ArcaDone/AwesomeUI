@@ -575,6 +575,15 @@ WIP
 4. Use the components as shown in the snippets above
 
 ---
+# ⭐ Star History
+
+<a href="https://star-history.com/#T8RIN/ImageToolbox&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ArcaDone/AwesomeUI&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ArcaDone/AwesomeUI&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ArcaDone/AwesomeUI&type=Date" />
+ </picture>
+</a>
 
 ## 📄 License
 
