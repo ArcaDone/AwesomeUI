@@ -558,6 +558,66 @@ ParticleBurst(
 
 ---
 
+### 🎯 NutritionCard (Semi-Circle Gauge)
+
+A nutrition tracking card with a semicircular segmented gauge, gradient progression, and stats footer.
+
+<img src="screenshots/gauge_card.png" width="400" alt="NutritionCard Preview"/>
+<img src="screenshots/gauge_card.gif" width="400" alt="NutritionCard Preview"/>
+```kotlin
+NutritionCard(
+    title = "Nutrition Overview",
+    score = 70,  // 0 to 100
+    scoreLabel = "Progress",
+    stats = listOf(
+        NutritionStat("Carbs", "149", "g"),
+        NutritionStat("Calories", "1850", "kcal"),
+        NutritionStat("Protein", "82", "g")
+    ),
+    accentGradient = listOf(Color(0xFF4DB6AC), Color(0xFFD4E157)),
+    backgroundColor = Color(0xFF121212),
+    contentColor = Color.White,
+    actionIcon = Icons.Default.MoreVert  // Optional action icon
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `title` | Card title (e.g., "Nutrition Overview") |
+| `score` | Progress value from 0 to 100 |
+| `scoreLabel` | Label above the percentage (e.g., "Progress", "Daily Goal") |
+| `stats` | List of `NutritionStat(label, value, unit)` for footer |
+| `accentGradient` | Color gradient for filled segments |
+| `backgroundColor` | Card background color |
+| `actionIcon` | Optional icon in top-right corner |
+
+**Standalone Gauge Component:**
+```kotlin
+NutritionGauge(
+    progress = 0.7f,  // 0.0 to 1.0
+    gradient = listOf(Color(0xFF4DB6AC), Color(0xFFD4E157)),
+    modifier = Modifier.size(280.dp),
+    segments = 22,  // Number of arc segments
+    innerRadiusDp = 80.dp,
+    outerRadiusDp = 110.dp,
+    cornerRadius = 8f,  // Roundness of segment corners
+    showGlow = true,
+    glowAlpha = 0.1f
+)
+```
+
+**Features:**
+- Semi-circular segmented arc (180°)
+- Smooth gradient across filled segments
+- Rounded segment corners with glow effect
+- Inactive segments shown in dark gray
+- Large centered percentage display
+- Footer with up to 3 stats
+- Fully customizable colors and dimensions
+
+---
+
 ## 📁 Project Structure
 
 ```
