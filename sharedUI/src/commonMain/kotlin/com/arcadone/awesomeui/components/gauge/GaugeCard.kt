@@ -1,12 +1,7 @@
 package com.arcadone.awesomeui.components.gauge
 
 import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -50,10 +45,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlinx.coroutines.delay
 
 @Composable
 fun NutritionCard(
@@ -79,9 +74,15 @@ fun NutritionCard(
     }
 
     val animatedProgress by animateFloatAsState(
-        targetValue = if (animateGradient && startAnimation) score / 100f else if (animateGradient) 0f else score / 100f,
+        targetValue = if (animateGradient && startAnimation) {
+            score / 100f
+        } else if (animateGradient) {
+            0f
+        } else {
+            score / 100f
+        },
         animationSpec = tween(durationMillis = 1500, easing = FastOutSlowInEasing),
-        label = "gauge_progress"
+        label = "gauge_progress",
     )
 
     Column(
@@ -137,8 +138,9 @@ fun NutritionCard(
                     text = "$displayScore%",
                     color = contentColor,
                     fontSize = 48.sp,
-                    fontWeight = FontWeight.Bold
-                )            }
+                    fontWeight = FontWeight.Bold,
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -201,14 +203,24 @@ fun NutritionGauge(
                 moveTo(p1.x, p1.y)
                 lineTo(p2.x, p2.y)
                 arcTo(
-                    rect = Rect(center.x - outerRadius, center.y - outerRadius, center.x + outerRadius, center.y + outerRadius),
+                    rect = Rect(
+                        center.x - outerRadius,
+                        center.y - outerRadius,
+                        center.x + outerRadius,
+                        center.y + outerRadius,
+                    ),
                     startAngleDegrees = angleDeg,
                     sweepAngleDegrees = segmentSweep,
                     forceMoveTo = false,
                 )
                 lineTo(p4.x, p4.y)
                 arcTo(
-                    rect = Rect(center.x - innerRadius, center.y - innerRadius, center.x + innerRadius, center.y + innerRadius),
+                    rect = Rect(
+                        center.x - innerRadius,
+                        center.y - innerRadius,
+                        center.x + innerRadius,
+                        center.y + innerRadius,
+                    ),
                     startAngleDegrees = angleDeg + segmentSweep,
                     sweepAngleDegrees = -segmentSweep,
                     forceMoveTo = false,
@@ -251,7 +263,10 @@ fun NutritionGauge(
 }
 
 @Composable
-private fun NutritionStatItem(stat: NutritionStat, color: Color) {
+private fun NutritionStatItem(
+    stat: NutritionStat,
+    color: Color,
+) {
     Column {
         Text(stat.label, color = color.copy(alpha = 0.6f), fontSize = 14.sp)
         Row(verticalAlignment = Alignment.Bottom) {
@@ -276,7 +291,10 @@ private fun NutritionStatItem(stat: NutritionStat, color: Color) {
 data class NutritionStat(val label: String, val value: String, val unit: String)
 
 // Simple linear interpolation for gradient segments
-private fun lerpColor(colors: List<Color>, fraction: Float): Color {
+private fun lerpColor(
+    colors: List<Color>,
+    fraction: Float,
+): Color {
     if (colors.size < 2) return colors.firstOrNull() ?: Color.Gray
     val segment = (colors.size - 1) * fraction
     val index = segment.toInt().coerceIn(0, colors.size - 2)
@@ -292,9 +310,7 @@ private fun lerpColor(colors: List<Color>, fraction: Float): Color {
 @Preview
 @Composable
 fun GaugeExample() {
-
     Box(modifier = Modifier.background(Color.Black).fillMaxSize().padding(16.dp)) {
-
         NutritionCard(
             title = "Nutrition Overview",
             score = 85,
@@ -305,8 +321,7 @@ fun GaugeExample() {
                 NutritionStat("Protein", "82", "g"),
             ),
             accentGradient = listOf(Color(0xFF4DB6AC), Color(0xFFD4E157)),
-            animateGradient = true
+            animateGradient = true,
         )
     }
-
 }
