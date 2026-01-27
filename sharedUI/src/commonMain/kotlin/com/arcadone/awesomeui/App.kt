@@ -34,7 +34,6 @@ import com.arcadone.awesomeui.components.chart.BarData
 import com.arcadone.awesomeui.components.chart.RadarChart
 import com.arcadone.awesomeui.components.chart.RadarDataPoint
 import com.arcadone.awesomeui.components.chart.line.ChartDataPoint
-import com.arcadone.awesomeui.components.chart.progreessionchart.FullAnalyticsPreview
 import com.arcadone.awesomeui.components.chart.progreessionchart.ProgressionChartGlow
 import com.arcadone.awesomeui.components.chart.progreessionchart.TrendDirection
 import com.arcadone.awesomeui.components.consistency.ConsistencyHeatmapCardGlow
