@@ -46,9 +46,9 @@ import com.arcadone.awesomeui.components.deformable.WatchCardSample
 import com.arcadone.awesomeui.components.donuts.DonutSegment
 import com.arcadone.awesomeui.components.donuts.DonutVariantColors
 import com.arcadone.awesomeui.components.donuts.MuscleGroupDonutVariant
-import com.arcadone.awesomeui.components.gauge.GaugeExample
 import com.arcadone.awesomeui.components.picker.WeightScalePicker
 import com.arcadone.awesomeui.components.picker.WeightScaleStyle
+import com.arcadone.awesomeui.components.scrolling.ScrollingPreview
 import com.arcadone.awesomeui.theme.AppTheme
 import com.arcadone.shared.timer.TimerState
 import kotlinx.datetime.LocalDate
@@ -63,7 +63,7 @@ fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) = AppTheme(o
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(0.dp),
         content = {
-            GaugeExample()
+            ScrollingPreview()
         },
     )
 }
@@ -74,7 +74,7 @@ fun App(onThemeChanged: @Composable (isDark: Boolean) -> Unit = {}) = AppTheme(o
 
 @Preview
 @Composable
-fun ShowcaseScreen1_CardsAndTimer() {
+private fun ShowcaseScreen1_CardsAndTimer() {
     // Animated timer state
     var timerSeconds by remember { mutableIntStateOf(45) }
 
@@ -176,7 +176,7 @@ fun ShowcaseScreen1_CardsAndTimer() {
 
 @Preview
 @Composable
-fun ShowcaseScreen2_ChartsAndHeatmap() {
+private fun ShowcaseScreen2_ChartsAndHeatmap() {
     val workoutDays = mapOf(
         LocalDate(2026, 1, 2) to 0.4f,
         LocalDate(2026, 1, 5) to 1f,
@@ -269,7 +269,7 @@ fun ShowcaseScreen2_ChartsAndHeatmap() {
 
 @Preview
 @Composable
-fun ShowcaseScreen3_HeatmapAndWeight() {
+private fun ShowcaseScreen3_HeatmapAndWeight() {
     Column(
         modifier = Modifier
             .fillMaxSize()
