@@ -7,11 +7,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import kotlin.time.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.todayIn
-import kotlin.time.Clock
 
 @Composable
 expect fun NativeDatePicker(
@@ -56,6 +56,6 @@ private fun NativePickerPreview() {
         onDateSelected = { date ->
             selectedDate = date
         },
-        onDismissRequest = {  },
+        onDismissRequest = { },
     )
 }

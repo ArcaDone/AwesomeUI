@@ -52,7 +52,7 @@ enum class MarqueeDirection {
     LEFT_TO_RIGHT,
     RIGHT_TO_LEFT,
     BOTTOM_TO_TOP,
-    TOP_TO_BOTTOM
+    TOP_TO_BOTTOM,
 }
 
 @Composable
@@ -77,10 +77,16 @@ fun MarqueeContent(
     LaunchedEffect(contentSize.intValue, containerSize.intValue) {
         if (contentSize.intValue > 0 && containerSize.intValue > 0) {
             while (true) {
-                val startPos = if (isReversed) -contentSize.intValue.toFloat()
-                else containerSize.intValue.toFloat()
-                val endPos = if (isReversed) containerSize.intValue.toFloat()
-                else -contentSize.intValue.toFloat()
+                val startPos = if (isReversed) {
+                    -contentSize.intValue.toFloat()
+                } else {
+                    containerSize.intValue.toFloat()
+                }
+                val endPos = if (isReversed) {
+                    containerSize.intValue.toFloat()
+                } else {
+                    -contentSize.intValue.toFloat()
+                }
 
                 contentOffset.snapTo(startPos)
 
@@ -100,13 +106,19 @@ fun MarqueeContent(
     Box(
         modifier = modifier
             .then(
-                if (isHorizontal) Modifier.fillMaxWidth()
-                else Modifier.fillMaxHeight(),
+                if (isHorizontal) {
+                    Modifier.fillMaxWidth()
+                } else {
+                    Modifier.fillMaxHeight()
+                },
             )
             .clipToBounds()
             .onGloballyPositioned { coordinates ->
-                containerSize.intValue = if (isHorizontal) coordinates.size.width
-                else coordinates.size.height
+                containerSize.intValue = if (isHorizontal) {
+                    coordinates.size.width
+                } else {
+                    coordinates.size.height
+                }
             },
         contentAlignment = when (direction) {
             MarqueeDirection.LEFT_TO_RIGHT, MarqueeDirection.RIGHT_TO_LEFT -> Alignment.CenterStart
@@ -123,8 +135,11 @@ fun MarqueeContent(
                     }
                 }
                 .onGloballyPositioned { coordinates ->
-                    contentSize.intValue = if (isHorizontal) coordinates.size.width
-                    else coordinates.size.height
+                    contentSize.intValue = if (isHorizontal) {
+                        coordinates.size.width
+                    } else {
+                        coordinates.size.height
+                    }
                 },
         ) {
             content()
@@ -221,13 +236,11 @@ fun ScrollingPreview() {
         containerColor = fadeEdgeColor,
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(top = 40.dp).verticalScroll(rememberScrollState())) {
-
             Text("From right to left", color = Color.White, fontSize = 24.sp)
             MarqueeContent(
                 direction = MarqueeDirection.RIGHT_TO_LEFT,
                 fadeEdgeColor = fadeEdgeColor,
                 content = {
-
                     ConsistencyHeatmapCardGlow(
                         year = 2026,
                         month = 1,
@@ -248,7 +261,6 @@ fun ScrollingPreview() {
                 direction = MarqueeDirection.LEFT_TO_RIGHT,
                 fadeEdgeColor = fadeEdgeColor,
                 content = {
-
                     Text("From left to right →")
                     ConsistencyHeatmapCardGlow(
                         year = 2026,

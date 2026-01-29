@@ -2,13 +2,15 @@
 
   <img src="screenshots/showcase_image.png" width="100%" alt="Showcase Preview"/>
 
-A collection of **"copy, paste, use"** snippets and useful elements for those who intend to or are already developing an app in **Compose Multiplatform** or simply an Android app and already use **Jetpack Compose** and **Material3**.
+A collection of **"copy, paste, use"** snippets and useful elements for those who intend to or are already developing an app in **Compose Multiplatform** or simply an Android app and already use *
+*Jetpack Compose** and **Material3**.
 
 ## Showcase
 
 ---
 
 ## 🧩 Components
+
 <table>
 <tr>
 <td><img src="screenshots/showcase_1.gif" width="400" alt="Gold Classic"/><br/></td>
@@ -45,6 +47,7 @@ ProgressionChartGlow(
     )
 )
 ```
+
 ```kotlin
 // See FullAnalyticsPreview()
 ProgressionChartGlow(
@@ -67,6 +70,7 @@ ProgressionChartGlow(
 | `style` | Customize line color, glow, grid, gradients |
 
 **Features:**
+
 - Smooth cubic Bézier curves
 - Gradient fill under the line
 - Glow effect on the line
@@ -143,6 +147,7 @@ TimerWatch(
 | `style` | Customize colors, sizes, typography |
 
 **States:**
+
 - **Work** → Green progress
 - **Rest** → Amber progress
 - **Overtime** → Red progress with negative time display
@@ -286,6 +291,7 @@ ConsistencyHeatmapCardGlow(
 | `onMonthChange` | Callback for month navigation |
 
 **Intensity Levels:**
+
 - **0.0** → Rest day (dark cell)
 - **0.3-0.5** → Light workout
 - **0.6-0.8** → Moderate workout
@@ -294,6 +300,7 @@ ConsistencyHeatmapCardGlow(
 ---
 
 ### 🎯 RadarChart
+
 A radar/spider chart with multiple overlapping data series, glow effects, and interactive point selection.
 
 <img src="screenshots/radar_chart.png" width="600" alt="RadarChart Preview"/>
@@ -338,6 +345,7 @@ RadarChart(
 | `onPointClick` | Callback when a point is tapped |
 
 **Features:**
+
 - Multiple overlapping series for comparison
 - Interactive point selection with tooltip
 - Series highlighting on tap (others dim)
@@ -381,6 +389,7 @@ WeightScalePicker(
 | `style` | Customize colors, tick sizes, indicator |
 
 **Features:**
+
 - Smooth horizontal drag scrolling
 - Snap to nearest tick on release
 - Major ticks every 1 kg with labels
@@ -391,6 +400,122 @@ WeightScalePicker(
 
 ---
 
+---
+
+### 🎬 MarqueeContent
+
+An infinite scrolling container with smooth animations and edge fade effects. Perfect for creating auto-scrolling content in any direction.
+
+<table>
+<tr>
+<td><img src="screenshots/top_bottom.gif" width="200" alt="Top to Bottom"/><br/><b>Top → Bottom</b></td>
+<td><img src="screenshots/bottom_top.gif" width="200" alt="Bottom to Top"/><br/><b>Bottom → Top</b></td>
+<td><img src="screenshots/left_right.gif" width="200" alt="Left to Right"/><br/><b>Left → Right</b></td>
+<td><img src="screenshots/right_left.gif" width="200" alt="Right to Left"/><br/><b>Right → Left</b></td>
+</tr>
+</table>
+
+```kotlin
+MarqueeContent(
+    direction = MarqueeDirection.RIGHT_TO_LEFT,
+    speed = 220f,
+    fadeEdgeColor = Color(0xFF0D0F14),
+    fadeEdgeWidth = 40.dp,
+    delayBetweenLoops = 200,
+    content = {
+        // Your scrolling content here
+        ConsistencyHeatmapCardGlow(
+            year = 2026,
+            month = 1,
+            data = HeatmapData(
+                dayIntensities = workoutDays,
+                currentStreak = 2,
+                recordStreak = 12,
+            ),
+            today = LocalDate(2026, 1, 16),
+        )
+    }
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `direction` | Scroll direction: `LEFT_TO_RIGHT`, `RIGHT_TO_LEFT`, `BOTTOM_TO_TOP`, `TOP_TO_BOTTOM` |
+| `speed` | Scroll speed in pixels per second (default: 220f) |
+| `fadeEdgeColor` | Color for edge gradient fade effect |
+| `fadeEdgeWidth` | Width of fade gradient on edges (default: 40.dp) |
+| `delayBetweenLoops` | Pause duration between animation loops in ms |
+| `content` | Composable content to scroll infinitely |
+
+**Features:**
+
+- Four directional scrolling modes (horizontal & vertical)
+- Smooth infinite loop animation with LinearEasing
+- Automatic fade gradients on both edges
+- Configurable speed and inter-loop delay
+- Works with any composable content
+- Auto-sized content measurement
+- Seamless looping with no visible jumps
+
+Usage Examples:
+Horizontal News Ticker:
+
+```kotlin
+MarqueeContent(
+    direction = MarqueeDirection.RIGHT_TO_LEFT,
+    speed = 150f,
+    fadeEdgeColor = MaterialTheme.colorScheme.surface,
+    content = {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            repeat(5) {
+                Text(
+                    "Breaking News: Important update #$it",
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+)
+```
+
+Vertical Infinite Feed:
+
+```kotlin
+MarqueeContent(
+    direction = MarqueeDirection.BOTTOM_TO_TOP,
+    speed = 100f,
+    modifier = Modifier.height(300.dp),
+    fadeEdgeWidth = 60.dp,
+    content = {
+        Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            repeat(10) { index ->
+                Card(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+                    Text(
+                        "Item #$index",
+                        modifier = Modifier.padding(24.dp)
+                    )
+                }
+            }
+        }
+    }
+)
+```
+
+Common Use Cases:
+
+News tickers and live announcements
+Infinite product carousels
+Vertical social feeds
+Auto-scrolling testimonials
+Continuous chart/data displays
+Award/achievement showcases
+
+💡 Tip: For better performance with heavy content, consider optimizing your composables and using appropriate modifiers. The component automatically measures content size for seamless looping.
+
 ### 🔀 DraggableList & DraggableGrid
 
 Reorderable lists and grids with drag and drop functionality. Supports vertical, horizontal, and 2D grid layouts.
@@ -398,6 +523,7 @@ Reorderable lists and grids with drag and drop functionality. Supports vertical,
 <img src="screenshots/draggable_list.gif" width="400" alt="DraggableGrid Preview"/>
 
 **DraggableList** - 1D reordering (vertical or horizontal):
+
 ```kotlin
 var items by remember { mutableStateOf(listOf("A", "B", "C", "D")) }
 
@@ -425,6 +551,7 @@ DraggableList(
 <img src="screenshots/draggable_grid.gif" width="400" alt="DraggableGrid Preview"/>
 
 **DraggableGrid** - 2D reordering in a grid:
+
 ```kotlin
 var items by remember { mutableStateOf((1..9).toList()) }
 
@@ -461,6 +588,7 @@ DraggableGrid(
 | `itemContent` | Composable for each item (receives `dragModifier`) |
 
 **Features:**
+
 - Long-press to initiate drag
 - Animated item shifting during drag
 - Floating copy effect with scale and elevation
@@ -486,6 +614,7 @@ A collection of particle effects for creating stunning premium-style animations.
 </table>
 
 **PremiumStarCard** - Complete card with particle effects:
+
 ```kotlin
 PremiumStarCard(
     modifier = Modifier.fillMaxWidth().height(300.dp),
@@ -521,6 +650,7 @@ PremiumStarCard(
 ```
 
 **ParticleBurst** - Standalone particle burst effect:
+
 ```kotlin
 ParticleBurst(
     style = ParticleBurstStyle(
@@ -549,6 +679,7 @@ ParticleBurst(
 | `effectCenterOffset` | `Offset(x, y)` to move effect origin |
 
 **Available Effects:**
+
 - **ParticleBurst** → Stars/shapes shooting from center
 - **EmberEffect** → Fire-like sparks rising upward
 - **FlickerStarsEffect** → Stars with random intermittent visibility
@@ -593,6 +724,7 @@ NutritionCard(
 | `actionIcon` | Optional icon in top-right corner |
 
 **Standalone Gauge Component:**
+
 ```kotlin
 NutritionGauge(
     progress = 0.7f,  // 0.0 to 1.0
@@ -608,6 +740,7 @@ NutritionGauge(
 ```
 
 **Features:**
+
 - Semi-circular segmented arc (180°)
 - Smooth gradient across filled segments
 - Rounded segment corners with glow effect
@@ -617,9 +750,11 @@ NutritionGauge(
 - Fully customizable colors and dimensions
 
 ---
-## 📅 Native Picker
+
+### 📅 Native Picker
 
 ---
+
 ## 📁 Project Structure
 
 ```
@@ -637,6 +772,7 @@ WIP
 4. Use the components as shown in the snippets above
 
 ---
+
 # ⭐ Star History
 
 <a href="https://star-history.com/#ArcaDone/AwesomeUI&Date">
