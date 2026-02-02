@@ -79,6 +79,127 @@ ProgressionChartGlow(
 
 ---
 
+### 📸 MultiGesture Photo Grid
+
+A photo grid with multi-selection support, long-press handling, and selection constraints. Perfect for image galleries with selection limits.
+<table>
+<tr>
+<td><img src="screenshots/multiselection.gif" width="400" alt="Gold Classic"/><br/><b>Multiselection</b></td>
+<td><img src="screenshots/double_carousel.gif" width="400" alt="Fire Burst"/><br/><b>Double Carousel</b></td>
+</tr>
+</table>
+
+```kotlin
+val photos = List(40) { ImageModel(image = "https://picsum.photos/id/${it}/600/600") }
+val viewModel = remember { PhotoGridViewModel() }
+
+LaunchedEffect(Unit) {
+    viewModel.setEvent(
+        PhotoGridEvents.OnStart(
+            lockedImage = null,
+            imageModelList = photos,
+            selectedImage = emptyList(),
+            selectionConstraints = SelectionConstraints(min = 1, max = 50),
+        )
+    )
+}
+
+PhotoGridMultiSelect(
+    imageModelList = photos,
+    selectedList = viewModel.uiState.value.selectedImage,
+    onImageLongClick = { imageModel, index ->
+        // Handle long press (e.g., show zoom modal)
+    },
+    onSelectionChange = { imageModel ->
+        viewModel.setEvent(PhotoGridEvents.OnPhotoTap(imageModel))
+    },
+    lockedImage = null,  // Optional locked image that can't be deselected
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `imageModelList` | List of `ImageModel(image: String)` to display |
+| `selectedList` | List of currently selected images |
+| `onImageLongClick` | Callback for long press (image, index) |
+| `onSelectionChange` | Callback when selection changes |
+| `lockedImage` | Optional image that stays selected |
+| `selectionConstraints` | `SelectionConstraints(min, max)` for validation |
+
+**Features:**
+
+- Multi-select with visual feedback (checkmarks)
+- Selection limit enforcement with bottom sheet warning
+- Long-press gesture support
+- Locked image support (always selected)
+- Select all / Deselect all functionality
+- Adaptive grid layout
+- Selection counter in footer
+
+---
+
+### 🎞️ DoubleCarousel
+
+A dual-synchronized carousel component with a top full-size image pager and bottom thumbnail strip. Features smooth synchronization, multi-selection, and aspect-ratio-aware borders.
+
+```kotlin
+var carouselState by remember {
+    mutableStateOf(
+        DoubleCarouselState(
+            images = List(10) { "https://picsum.photos/id/${it * 10}/800/600" },
+            currentIndex = 0,
+            selectedIndices = emptySet()
+        )
+    )
+}
+
+DoubleCarousel(
+    state = carouselState,
+    onStateChange = { carouselState = it },
+    config = DoubleCarouselConfig(
+        bottomThumbnailSize = 80.dp,
+        selectedBorderColor = Color.Cyan,
+        selectedBorderWidth = 3.dp,
+        spacing = 8.dp,
+    )
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `state` | `DoubleCarouselState(images, currentIndex, selectedIndices)` |
+| `onStateChange` | Callback when state changes (navigation or selection) |
+| `config` | Customize thumbnail size, colors, spacing |
+
+**DoubleCarouselState Methods:**
+```kotlin
+state.toggleSelection(index)  // Toggle image selection
+state.updateCurrentIndex(index)  // Navigate to image
+state.isSelected(index)  // Check if image is selected
+```
+
+**Features:**
+
+- **Bidirectional Sync**: Swipe top pager ↔️ scroll bottom thumbnails
+- **Multi-Selection**: Tap top image to select/deselect with border indicator
+- **Aspect Ratio Aware**: Borders follow actual image shape (not container)
+- **Snap Behavior**: Bottom carousel snaps to center with smooth animations
+- **Fast Scroll Handling**: Debounced synchronization prevents desync
+- **Customizable Styling**: Thumbnail size, colors, borders, spacing
+
+**Configuration Options:**
+| Config Property | Description | Default |
+|-----------------|-------------|---------|
+| `maxVisibleInBottom` | Max thumbnails visible in bottom carousel | 5 |
+| `bottomThumbnailSize` | Square thumbnail size | 80.dp |
+| `selectedBorderColor` | Border color for selected images | Cyan |
+| `selectedBorderWidth` | Border width for selected images | 3.dp |
+| `spacing` | Space between bottom thumbnails | 8.dp |
+
+---
+
 ### 🔥 DeformableCornerItem
 
 A customizable card with deformable corners and a circular cutout for icons.
