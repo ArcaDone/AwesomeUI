@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.interop.UIKitView
 import androidx.compose.ui.unit.dp
+import com.arcadone.awesomeui.components.utils.getScreenHeight
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -22,7 +23,6 @@ import kotlinx.cinterop.ObjCAction
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import platform.CoreGraphics.CGRectGetHeight
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSCalendarUnitDay
 import platform.Foundation.NSCalendarUnitMonth
@@ -36,7 +36,6 @@ import platform.UIKit.UIControlEventValueChanged
 import platform.UIKit.UIDatePicker
 import platform.UIKit.UIDatePickerMode
 import platform.UIKit.UIDatePickerStyle
-import platform.UIKit.UIScreen
 import platform.darwin.NSObject
 
 @OptIn(ExperimentalForeignApi::class, ExperimentalTime::class)
@@ -135,14 +134,6 @@ actual fun NativeDatePicker(
             }
         },
     )
-}
-
-@OptIn(ExperimentalForeignApi::class)
-@Composable
-fun getScreenHeight(): Float {
-    val mainScreenBounds = UIScreen.mainScreen.bounds
-    val screenWidthPoints = CGRectGetHeight(mainScreenBounds)
-    return screenWidthPoints.toFloat()
 }
 
 fun Color.toUIColor(): UIColor = UIColor(
