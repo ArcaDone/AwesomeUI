@@ -91,7 +91,7 @@ android {
     namespace = "com.arcadone.awesomeui"
     compileSdk = 36
     defaultConfig {
-        minSdk = 23
+        minSdk = 26
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

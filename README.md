@@ -78,6 +78,48 @@ ProgressionChartGlow(
 - Trend badge with icon
 
 ---
+### 🎠 FeatureCarousel
+
+A full-screen 3D carousel with auto-scroll, gradient background, and a highlighted title. Cards animate with translation, scale, rotation, and blur for a depth effect.
+
+<img src="screenshots/feature_carousel.gif" width="400" alt="FeatureCarousel Preview"/>
+```kotlin
+FeatureCarousel(
+    title = "Create your next Outfit",
+    highlightedWord = "Outfit",
+    subtitle = "Discover the latest trends",
+    images = listOf(
+        CarouselImage(
+            url = "https://images.unsplash.com/photo-1504051771394-dd2e66b2e08f?w=900",
+            description = "Image 1",
+        ),
+        CarouselImage(
+            url = "https://images.unsplash.com/photo-1526510747491-58f928ec870f?w=900",
+            description = "Image 2",
+        ),
+    ),
+    fractionHeight = 3,
+)
+```
+
+**Key Parameters:**
+| Parameter | Description |
+|-----------|-------------|
+| `title` | Full title text. If empty, the header is not rendered |
+| `highlightedWord` | Word within `title` rendered with a blue-violet gradient |
+| `subtitle` | Subtitle shown below the title. If empty, not rendered |
+| `images` | List of `CarouselImage(url, description)` to display |
+| `fractionHeight` | Divisor of screen height for component height (e.g. `3` = 1/3 screen). Default: `3` |
+
+**Features:**
+
+- Auto-scroll every 4 seconds with infinite loop
+- Spring-animated 3D effect (translation, scale, rotationY, alpha)
+- Blur on non-centered cards for depth perception
+- Gradient highlight on a specific word in the title
+- Decorative radial background (purple + blue glows)
+- Previous/Next navigation buttons
+---
 
 ### 📸 MultiGesture Photo Grid
 
