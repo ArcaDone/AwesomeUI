@@ -83,6 +83,7 @@ ProgressionChartGlow(
 A full-screen 3D carousel with auto-scroll, gradient background, and a highlighted title. Cards animate with translation, scale, rotation, and blur for a depth effect.
 
 <img src="screenshots/feature_carousel.gif" width="400" alt="FeatureCarousel Preview"/>
+
 ```kotlin
 FeatureCarousel(
     title = "Create your next Outfit",
